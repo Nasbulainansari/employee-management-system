@@ -10,7 +10,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "sqlite:///./employee.db"
+    "postgresql://employee_user:sP4rmFY5Z2gPdzcZyqDreyVdRcXnaJEK@dpg-d9tefuv40ujc73e5qjp0-a/employee_db_uzvt"
 )
 
 
