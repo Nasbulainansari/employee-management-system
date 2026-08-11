@@ -42,36 +42,19 @@ app = FastAPI(
 # CORS CONFIGURATION
 # ============================================================
 
-# Local frontend URL
-LOCAL_FRONTEND_URL = "http://localhost:5173"
-
-# Production frontend URL
-# Render/Vercel par environment variable mein set karenge.
-PRODUCTION_FRONTEND_URL = os.getenv(
-    "FRONTEND_URL",
-    ""
-)
-
-
 allowed_origins = [
-    LOCAL_FRONTEND_URL
+    # Local React frontend
+    "http://localhost:5173",
+
+    # Production Vercel frontend
+    "https://employee-management-system-alpha-gold.vercel.app",
 ]
-
-if PRODUCTION_FRONTEND_URL:
-    allowed_origins.append(
-        PRODUCTION_FRONTEND_URL
-    )
-
 
 app.add_middleware(
     CORSMiddleware,
-
     allow_origins=allowed_origins,
-
     allow_credentials=True,
-
     allow_methods=["*"],
-
     allow_headers=["*"],
 )
 
@@ -87,12 +70,9 @@ os.makedirs(
     exist_ok=True
 )
 
-
 app.mount(
     "/uploads",
-    StaticFiles(
-        directory=UPLOAD_DIRECTORY
-    ),
+    StaticFiles(directory=UPLOAD_DIRECTORY),
     name="uploads"
 )
 
@@ -101,33 +81,13 @@ app.mount(
 # INCLUDE ROUTERS
 # ============================================================
 
-app.include_router(
-    users.router
-)
-
-app.include_router(
-    departments.router
-)
-
-app.include_router(
-    employees.router
-)
-
-app.include_router(
-    attendance.router
-)
-
-app.include_router(
-    salary.router
-)
-
-app.include_router(
-    dashboard.router
-)
-
-app.include_router(
-    leave.router
-)
+app.include_router(users.router)
+app.include_router(departments.router)
+app.include_router(employees.router)
+app.include_router(attendance.router)
+app.include_router(salary.router)
+app.include_router(dashboard.router)
+app.include_router(leave.router)
 
 
 # ============================================================
@@ -136,7 +96,6 @@ app.include_router(
 
 @app.get("/")
 def home():
-
     return {
         "message": "Employee Management System API Running Successfully",
         "version": "1.0.0",
@@ -149,7 +108,6 @@ def home():
 
 @app.get("/health")
 def health():
-
     return {
         "status": "Healthy",
         "server": "Running",
